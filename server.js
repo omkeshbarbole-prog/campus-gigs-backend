@@ -108,6 +108,38 @@ app.post('/notify-chat', async (req, res) => {
   }
 });
 
+// 4. Create Order Endpoint (for Payment Gateway / Escrow)
+app.post('/api/create-order', (req, res) => {
+  const { amount, currency } = req.body;
+
+  console.log(`Received order creation request: amount=${amount}, currency=${currency}`);
+
+  const orderId = "order_test_" + Math.floor(100000 + Math.random() * 900000);
+
+  return res.status(200).json({
+    orderId: orderId,
+    amount: amount,
+    currency: currency || "INR",
+    status: "created"
+  });
+});
+
+// Fallback route without /api prefix
+app.post('/create-order', (req, res) => {
+  const { amount, currency } = req.body;
+
+  console.log(`Received order creation request: amount=${amount}, currency=${currency}`);
+
+  const orderId = "order_test_" + Math.floor(100000 + Math.random() * 900000);
+
+  return res.status(200).json({
+    orderId: orderId,
+    amount: amount,
+    currency: currency || "INR",
+    status: "created"
+  });
+});
+
 // Health Check Endpoint
 app.get('/', (req, res) => {
   res.status(200).send("Omnyx Gigs Notification API is running!");
